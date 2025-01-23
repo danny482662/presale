@@ -12,34 +12,10 @@ from '@web3-react/walletconnect-connector';
 import { ethers } from "ethers";
 import Web3 from "web3";
 
-//0 ropsten, 1 bsc
 let netid = 0;
 let provider = null;
 let walletconnect, injected, bsc;
 
-//mainnet
-// const netlist = [
-//   {
-//     chaind : 1,
-//     rpcurl : "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-//     blockurl : "https://etherscan.io",
-//     chainname : "Ethereum Mainnet",
-//     chainnetname : "Ethereum Mainnet",
-//     chainsymbol : "ETH",
-//     chaindecimals : 18
-//   },
-//   {
-//     chaind : 56,
-//     rpcurl : "https://bsc-dataseed1.ninicoin.io",
-//     blockurl : "https://bscscan.com/",
-//     chainname : "Binance Smart Chain Mainnet",
-//     chainnetname : "Binance Smart Chain Mainnet",
-//     chainsymbol : "BNB",
-//     chaindecimals : 18
-//   },
-// ]
-
-//testnet
 const netlist = [
   {
     chaind : 3,

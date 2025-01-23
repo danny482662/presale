@@ -68,7 +68,7 @@ const HeroSection = () => {
             alt="ELO Logo Alt" 
             width="450"
           /> */}
-          <ReactPlayer url='https://www.youtube.com/watch?v=VB5_R9_F8MY' />
+          {/* <ReactPlayer url='https://www.yo.com/watch?v=VB5_R9_F8MY' /> */}
         </Box>
       </Stack>
     </Container>
