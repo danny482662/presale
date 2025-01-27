@@ -5,6 +5,7 @@ import WalletIcon from "../ui/icons/Wallet";
 import Modal from "@mui/material/Modal";
 import { Box, Dialog } from "@mui/material";
 import  metamask from "./../../assets/images/icons/metamask-fox.svg";
+import Metamask from "components/meta";
 
 const Unauthenticated = () => {
   const [walletProvidersDialogOpen, setWalletProvidersDialogOpen] =
@@ -32,7 +33,8 @@ const Unauthenticated = () => {
 
   return (
     <Fragment>
-      <Button
+      <Metamask />
+      {/* <Button
         variant="contained"
         disableElevation
         fullWidth
@@ -41,7 +43,7 @@ const Unauthenticated = () => {
         sx={{ boxShadow: "rgb(0 0 0 / 8%) 0px 8px 28px" }}
       >
         Wallet Connect
-      </Button>
+      </Button> */}
       <WalletProviders
         walletProvidersDialogOpen={walletProvidersDialogOpen}
         handleWalletProvidersDialogToggle={handleWalletProvidersDialogToggle}
