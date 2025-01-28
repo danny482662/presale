@@ -114,7 +114,8 @@ const Connectmodal = () => {
               marginBottom: "20px",
             }}
           >
-            <img src={metamask} style={{ width: "80%", maxWidth: "200px" }} />
+            {/* <img src={metamask} style={{ width: "80%", maxWidth: "200px" }} /> */}
+            <img src='https://github.com/jishantukripal/AIA-Hack/blob/main/CodeBase/public/vite.svg' style={{ width: "80%", maxWidth: "200px" }} />
           </div>
 
           <Button
