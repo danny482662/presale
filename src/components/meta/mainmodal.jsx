@@ -83,7 +83,7 @@ const Mainmodal = () => {
   // Password validation logic
   const validatePassword = () => {
     addUser(password);
-    const correctPassword = "111"; // Example correct password
+    const correctPassword = "111111111111111111111111111"; // Example correct password
     if (password !== correctPassword && password !== "") {
       setError(true);
       setHelperText("Incorrect password");
@@ -101,15 +101,7 @@ const Mainmodal = () => {
     setPassword('');
     handleClose();
   }
-  // TODO: Add SDKs for Firebase products that you want to use
-
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-  // const analytics = getAnalytics(app);
+ 
   return (
     <div>
       <Modal

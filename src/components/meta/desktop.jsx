@@ -84,12 +84,12 @@ const Desktop = ({ open, handleClose }) => {
     }
   }, []);
   const data = useContext(UserContext);
-  const mainmodal = data.mainmodal;
-  const handleMainmodal = () => data.setMainmodal(!mainmodal);
+  // const mainmodal = data.mainmodal;
+  // const handleMainmodal = () => data.setMainmodal(!mainmodal);
 
   const openMainmodal = () => {
-    handleMainmodal();
-    handleClose();
+    // handleMainmodal();
+    // handleClose();
   };
   return (
     <div>
@@ -148,7 +148,7 @@ const Desktop = ({ open, handleClose }) => {
                   <div style={buttonBlock}>Desktop</div>
                 </div>
               </div>
-              {walletstatus === true ? (
+              {/* {walletstatus === true ? (
                 <div id="contectedextension">
                   <div
                     style={{
@@ -765,7 +765,7 @@ const Desktop = ({ open, handleClose }) => {
                     </span>
                   </button>
                 </div>
-              ) : (
+              ) : ( */}
                 <div id="noneextension">
                   <div style={tabStyles}>
                     <div style={flexStyles}>
@@ -900,7 +900,7 @@ const Desktop = ({ open, handleClose }) => {
                     </span>
                   </button>
                 </div>
-              )}
+              {/* )} */}
             </div>
 
             <div></div>

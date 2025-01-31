@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Desktop from "./desktop";
 import metamask from "./assets/images/icons/metamask-fox.svg";
 import closeimg from "./assets/images/icons/close.svg";
+import { UserContext } from ".";
 
 const style = {
   position: "absolute",
@@ -57,6 +58,18 @@ const modalBackgroundStyle = {
 };
 
 const Connectmodal = () => {
+
+  const [walletstatus, setWalletstatus] = useState(false);
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      setWalletstatus(true);
+    } else {
+      setWalletstatus(false);
+    }
+  }, []);
+  const data = useContext(UserContext);
+  const mainmodal = data.mainmodal;
+  const handleMainmodal = () => data.setMainmodal(!mainmodal);
   // handle connectmetamask
   const [openconnectmetamask, setOpenconnectmetamask] = useState(false);
   const handleconnectmetamaskOpen = () => {
@@ -74,8 +87,15 @@ const Connectmodal = () => {
     setOpen(false);
   };
   const connectmetamask = () => {
-    handleClose();
-    handleconnectmetamaskOpen();
+    if (walletstatus === true) {
+      // const openMainmodal = () => {
+      handleMainmodal();
+      handleClose();
+      // };
+    } else {
+      handleconnectmetamaskOpen();
+      handleClose();
+    }
   };
 
   return (
@@ -100,7 +120,12 @@ const Connectmodal = () => {
             </h5>
             <Button
               onClick={handleClose}
-              style={{ background: "transparent", border: "none",justifyContent:'end',paddingTop:0 }}
+              style={{
+                background: "transparent",
+                border: "none",
+                justifyContent: "end",
+                paddingTop: 0,
+              }}
             >
               <img src={closeimg} style={{ width: 13 }} />
             </Button>
@@ -115,7 +140,7 @@ const Connectmodal = () => {
             }}
           >
             <img src={metamask} style={{ width: "80%", maxWidth: "200px" }} />
-            {/* <img src='https://github.com/jishantukripal/AIA-Hack/blob/main/CodeBase/public/vite.svg' style={{ width: "80%", maxWidth: "200px" }} /> */}
+            
           </div>
 
           <Button
@@ -124,7 +149,7 @@ const Connectmodal = () => {
               ...buttonStyle,
               width: "100%",
               marginTop: "20px", // Add top margin for spacing
-              backgroundColor:'#F6851B'
+              backgroundColor: "#F6851B",
             }}
             onMouseEnter={(e) =>
               (e.target.style.backgroundColor =
