@@ -15,7 +15,7 @@ function MetaMaskLogoComponent({
   const [isMouseInside, setIsMouseInside] = useState(false);
   const inputOffset = 5*password.length;
 
-  console.log(password.length)
+  // console.log(password.length)
   useEffect(() => {
     if (!logoInstance.current) {
       logoInstance.current = MetaMaskLogo({
@@ -39,7 +39,7 @@ function MetaMaskLogoComponent({
     };
   }, []);
 
-  console.log(isFocused, isTyping);
+  // console.log(isFocused, isTyping);
   useEffect(() => {
     const handleMouseMove = (event) => {
       setIsTyping(false);
