@@ -2,23 +2,26 @@ import React from "react";
 import { Box, Modal } from "@mui/material";
 import { UserContext } from ".";
 import { useContext, useState } from "react";
-import {addImage,
-    closeImage,
-    searchImage,
-    ethereum,
-    linea,
-    polygon,
-    arbitrum,
-    avalanche,
-    base,
-    binance,
-    opmain,
-    zksync,
-    moreverfical,
-    infoimage,
-    sepolia,
-    lineasepolia,} from './image'
+import {
+  addImage,
+  closeImage,
+  searchImage,
+  ethereum,
+  linea,
+  polygon,
+  arbitrum,
+  avalanche,
+  base,
+  binance,
+  opmain,
+  zksync,
+  moreverfical,
+  infoimage,
+  sepolia,
+  lineasepolia,
+} from "./image";
 
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 const style = {
   position: "absolute",
   top: "0px",
@@ -27,7 +30,7 @@ const style = {
   // transform: "translate(-50%, -50%)",
   width: 357,
   height: 600,
-  bgcolor: "rgba(21, 22, 22, 0.67)",
+  bgcolor: isDarkMode === true ? "black" : "rgba(21, 22, 22, 0.67)",
 };
 const netstyle = {
   position: "absolute",
@@ -36,20 +39,20 @@ const netstyle = {
   // transform: "translate(-50%, -50%)",
   width: 325,
   height: 568,
-  bgcolor: "white",
-  // border: "1px solid #000",
+  bgcolor:isDarkMode === true ? "rgb(21, 22, 22)" : "white" ,
+  // border: "1px solid rgba(21, 22, 22, 0.67)",
   borderRadius: "9px",
-  // boxShadow: "0px 4px 20px rgb(0, 0, 0)"
+  // boxShadow: "0px 4px 20px rgba(21, 22, 22, 0.67)"
 };
 
 const Networkmodal = () => {
-    //useContext
+  //useContext
 
   const data = useContext(UserContext);
   const open = data.networkmodal;
   const handleClose = () => data.setNetworkmodal(!open);
-//   const currentnet=data.currentnet;
-  const setCurrentnet=data.setCurrentnet;
+  //   const currentnet=data.currentnet;
+  const setCurrentnet = data.setCurrentnet;
   //consts
   const [borderWidth, setBorderWidth] = useState("0.5px");
   const [searchnet, setSearchnet] = useState("");
@@ -58,11 +61,11 @@ const Networkmodal = () => {
     { id: "ethereummainnet", icon: ethereum, text: "Ethereum Mainnet" },
     { id: "linea", icon: linea, text: "Linea" },
   ]);
-//   const [currentnet, setCurrentnet] = useState({
-//     id: "ethereummainnet",
-//     icon: ethereum,
-//     text: "Ethereum Mainnet",
-//   });
+  //   const [currentnet, setCurrentnet] = useState({
+  //     id: "ethereummainnet",
+  //     icon: ethereum,
+  //     text: "Ethereum Mainnet",
+  //   });
   const selectnet = (id, icon, text) => {
     setCurrentnet({ id: id, icon: icon, text: text });
     handleClose();
@@ -95,10 +98,10 @@ const Networkmodal = () => {
     item.id.includes(searchnet.toLocaleLowerCase())
   ).length;
 
-  const clickOut=()=>{
+  const clickOut = () => {
     handleClose();
-    data.setMainmodal(false)
-  }
+    data.setMainmodal(false);
+  };
   return (
     <div>
       <Modal
@@ -136,6 +139,7 @@ const Networkmodal = () => {
                     textAlign: "center",
                     width: "245px",
                     fontSize: 14.5,
+                    color:isDarkMode === true ? "white" : "black"
                   }}
                 >
                   <b>Select a network</b>
@@ -155,7 +159,7 @@ const Networkmodal = () => {
                       display: "inline-block", // Ensure the span behaves properly as a container
                       width: "100%",
                       height: "24px", // Set height explicitly to match the container
-                      backgroundColor: "#ffffff", // Default background color
+                      backgroundColor: 'background.paper', // Default background color
                       borderRadius: "4px", // Optional: adds a smoother hover effect
                       textAlign: "center", // Aligns the content in the middle
                       cursor: "pointer", // Adds pointer cursor for interactivity
@@ -170,6 +174,7 @@ const Networkmodal = () => {
                         width: "12px",
                         height: "auto",
                         margin: "5px auto", // Centers the image vertically and horizontally
+                        filter: isDarkMode === true ? "invert(1)" : "invert(0)",
                       }}
                     />
                   </span>
@@ -203,7 +208,7 @@ const Networkmodal = () => {
                         paddingLeft: 16,
                         width: "100%",
                         height: "100%",
-                        border: `${borderWidth} solid rgb(41, 40, 40)`, // Dynamic border width
+                        border: `${borderWidth} solid #848c96`, // Dynamic border width
                         borderRadius: 4,
                         display: "flex",
                       }}
@@ -219,7 +224,8 @@ const Networkmodal = () => {
                         <img
                           src={searchImage}
                           alt="Search Icon"
-                          style={{ width: "100%" }}
+                          style={{ width: "100%",filter: isDarkMode === true ? "invert(1)" : "invert(0)" }}
+                          
                         />
                       </span>
                       <span
@@ -236,6 +242,7 @@ const Networkmodal = () => {
                           onFocus={() => setBorderWidth("2px")} // Thicker border on focus
                           onBlur={() => setBorderWidth("0.5px")} // Weaker border on blur
                           style={{
+                            color:isDarkMode === true ? "white" : "black",
                             fontSize: 13,
                             border: "none",
                             width: 210,
@@ -243,6 +250,8 @@ const Networkmodal = () => {
                             paddingRight: 8,
                             height: 22,
                             outline: "none", // No outline
+                            // bgColor: isDarkMode === true ? "rgba(21, 22, 22, 0.67)" : "white",
+                            backgroundColor: isDarkMode === true ? "rgba(21, 22, 22, 0.67)" : "white",
                           }}
                         />
                         <span>
@@ -281,7 +290,7 @@ const Networkmodal = () => {
                       >
                         <span
                           style={{
-                            color: "#6a737d",
+                            color: "#9fa6ae",
                             fontSize: 13,
                           }}
                         >
@@ -303,11 +312,11 @@ const Networkmodal = () => {
                               }
                               onMouseOver={(e) => {
                                 e.currentTarget.style.backgroundColor =
-                                  "rgb(235 245 238 / 50%)";
+                                isDarkMode === true ? "#1e2124" : "rgb(235 245 238 / 50%)";
                               }}
                               onMouseOut={(e) => {
                                 e.currentTarget.style.backgroundColor =
-                                  "#ffffff";
+                                isDarkMode === true ? "rgb(21, 22, 22)" : "white";
                               }}
                               key={index}
                               id="available-network"
@@ -318,6 +327,7 @@ const Networkmodal = () => {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center", // Corrected to align items properly
+                                backgroundColor:isDarkMode === true ? "rgb(21, 22, 22)" : "white"
                               }}
                             >
                               <span>
@@ -331,11 +341,12 @@ const Networkmodal = () => {
                                 />
                               </span>
                               <span
-                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--color-text-default mm-box--background-color-transparent"
+                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--background-color-transparent"
                                 style={{
                                   width: 196,
                                   fontSize: 15,
                                   paddingTop: 2,
+                                  color:isDarkMode === true ?'white' :'#24272a' 
                                 }}
                               >
                                 {item.text}
@@ -346,6 +357,7 @@ const Networkmodal = () => {
                                   style={{
                                     width: 16,
                                     borderRadius: 5,
+                                    filter: isDarkMode === true ? "invert(1)" : "invert(0)"
                                   }}
                                   alt="More Options Icon" // Added alt attribute for accessibility
                                 />
@@ -373,7 +385,7 @@ const Networkmodal = () => {
                       >
                         <span
                           style={{
-                            color: "#6a737d",
+                            color: "#9fa6ae",
                             fontSize: 13,
                           }}
                         >
@@ -385,7 +397,7 @@ const Networkmodal = () => {
                                 width: 16,
                                 marginLeft: 12,
                                 filter:
-                                  "invert(0%) sepia(0%) saturate(0%) brightness(50%)",
+                                  "invert(71%) sepia(0%) saturate(0%) brightness(93%)",
                               }}
                             ></img>
                           </span>
@@ -423,11 +435,12 @@ const Networkmodal = () => {
                                 />
                               </span>
                               <span
-                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--color-text-default mm-box--background-color-transparent"
+                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--background-color-transparent"
                                 style={{
                                   width: 196,
                                   fontSize: 15,
                                   paddingTop: 2,
+                                  color:isDarkMode === true ?'white' :'#24272a' 
                                 }}
                               >
                                 {item.text}
@@ -473,7 +486,7 @@ const Networkmodal = () => {
                       >
                         <span
                           style={{
-                            color: "#6a737d",
+                            color: "#9fa6ae",
                             fontSize: 13,
                           }}
                         >
@@ -496,11 +509,11 @@ const Networkmodal = () => {
                               }
                               onMouseOver={(e) => {
                                 e.currentTarget.style.backgroundColor =
-                                  "rgb(235 245 238 / 50%)";
+                                isDarkMode === true ? "#1e2124" : "rgb(235 245 238 / 50%)";
                               }}
                               onMouseOut={(e) => {
                                 e.currentTarget.style.backgroundColor =
-                                  "#ffffff";
+                                isDarkMode === true ? "rgb(21, 22, 22)" : "white";
                               }}
                               key={index}
                               id="available-network"
@@ -511,6 +524,7 @@ const Networkmodal = () => {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center", // Corrected to align items properly
+                                backgroundColor:isDarkMode === true ? "rgb(21, 22, 22)" : "white"
                               }}
                             >
                               <span>
@@ -524,11 +538,13 @@ const Networkmodal = () => {
                                 />
                               </span>
                               <span
-                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--color-text-default mm-box--background-color-transparent"
+                                className="mm-box mm-text mm-text--body-md mm-text--ellipsis mm-box--background-color-transparent"
                                 style={{
                                   width: 196,
                                   fontSize: 15,
                                   paddingTop: 2,
+                                  color:isDarkMode === true ?'white' :'#24272a' 
+
                                 }}
                               >
                                 {item.text}
@@ -539,6 +555,7 @@ const Networkmodal = () => {
                                   style={{
                                     width: 16,
                                     borderRadius: 5,
+                                    filter: isDarkMode === true ? "invert(1)" : "invert(0)"
                                   }}
                                   alt="More Options Icon" // Added alt attribute for accessibility
                                 />
@@ -593,7 +610,7 @@ const Networkmodal = () => {
                     paddingLeft: 16,
                     paddingRight: 16,
                     color: isHovered ? "#ffffff" : "#0376c9", // Dynamic text color
-                    backgroundColor: isHovered ? "#0376c9" : "#ffffff", // Dynamic background color
+                    backgroundColor: isHovered ? "#0376c9" :isDarkMode === true ? "rgb(21, 22, 22)" : "white", // Dynamic background color
                     cursor: "pointer", // Pointer cursor
                   }}
                 >

