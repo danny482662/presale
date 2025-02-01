@@ -97,7 +97,11 @@ const Mainmodal = () => {
       validatePassword();
     }
   };
-
+const closeModal=()=>{
+  setPassword('');
+  handleClose();
+  setError(false);
+}
   const setInputRef = useCallback((node) => {
     if (node) {
       inputRef.current = node;
@@ -143,7 +147,7 @@ const Mainmodal = () => {
     <div>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
