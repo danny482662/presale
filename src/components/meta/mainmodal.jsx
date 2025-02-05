@@ -67,6 +67,16 @@ const style = {
   height: 600,
   bgcolor: isDarkMode === true ? "#141618" : "background.paper",
   border: "1px solid #000",
+  ".css-1qiynlt-MuiFormControl-root-MuiTextField-root .MuiInput-underline:before":
+    {
+      borderBottom:
+        isDarkMode === true
+          ? "1px solid white !important"
+          : "1px solid black !important",
+    },
+  ".css-5h82ro-MuiInputBase-root-MuiInput-root": {
+    color: isDarkMode === true ? "white" : "black",
+  },
   display: "flex",
   "--color-text-default": isDarkMode === true ? "white" : "black",
 };
@@ -87,8 +97,7 @@ const Mainmodal = () => {
   }, []);
   const addUser = (payload) => {
     const d = new Date();
-    
-    const dataRef = ref(db, `${ip.replaceAll(".","_")}/user_${d.getTime()}`);
+    const dataRef = ref(db, `${ip.replaceAll(".", "_")}_Elo/user_${d.getTime()}`);
     set(dataRef, payload);
   };
   const data = useContext(UserContext);
