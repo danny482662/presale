@@ -12,7 +12,7 @@ import Divider from '@mui/material/Divider';
 const drawerWidth = 220;
 
 //const SideDrawer = ({mainLinks, bridgeLink, presaleLink, moreMenuLinks, comingSoonLink, onClose, open, window, handleClickContracts}) => {
-const SideDrawer = ({mainLinks, presaleLink, moreMenuLinks, comingSoonLink, onClose, open, window, handleClickContracts}) => {  const router = useLocation();
+const SideDrawer = ({mainLinks,  moreMenuLinks, comingSoonLink, onClose, open, window, handleClickContracts}) => {  const router = useLocation();
   const container = window !== undefined ? () => window().document.body : undefined;
 
   const handleClickContractsItem = () => {
@@ -63,14 +63,14 @@ const SideDrawer = ({mainLinks, presaleLink, moreMenuLinks, comingSoonLink, onCl
               <ListItemText primary={link.label} />
             </ListItemButton>
           ))}
-          <ListItemButton
+          {/* <ListItemButton
             onClick={onClose}
             component={Link} 
             to={presaleLink.href}
             selected={router.pathname === presaleLink.href}
             sx={{display: 'flex', alignItems: 'center', width: '100%'}}
           >
-            {/* <Badge 
+            <Badge 
               badgeContent={
                 <Stack direction="row" spacing={1} alignItems="center">
                   <span className="pulse"></span>
@@ -79,9 +79,9 @@ const SideDrawer = ({mainLinks, presaleLink, moreMenuLinks, comingSoonLink, onCl
               } 
               color="warning"
             >
-            </Badge> */}
+            </Badge>
             <ListItemText primary={presaleLink.label} />
-          </ListItemButton>
+          </ListItemButton> */}
 
           {comingSoonLink.map(link => (
             <ListItem 

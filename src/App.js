@@ -37,7 +37,7 @@ const App = () => {
           <Route exact path="/onramp" component={Ramper} />
           <Route exact path="/transactions" component={Transactions} />
           <Route exact path="/nfts" component={NFTs} />
-          <Route exact path="/pre-sale" component={Presale} />
+          <Route exact path="/pre-sale" component={Home} />
           <Route exact path="/mint" component={Mint} />
           <Route exact path="/stake" component={Stake} />
           <Route exact path="/nonauthenticated">

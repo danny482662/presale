@@ -8,7 +8,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '@mui/material/Button';
 
 //const Navbar = ({mainLinks, presaleLink, bridgeLink, moreMenuLinks, comingSoonLink, handleClickContracts}) => {
-  const Navbar = ({mainLinks, presaleLink, moreMenuLinks, comingSoonLink, handleClickContracts}) => {
+  const Navbar = ({mainLinks, moreMenuLinks, comingSoonLink, handleClickContracts}) => {
   const { pathname } = useLocation();
   const [anchorMoreEl, setAnchorMoreEl] = useState(null);
   const openMoreMenu = Boolean(anchorMoreEl);
@@ -43,7 +43,7 @@ import Button from '@mui/material/Button';
             {link.label}
           </Button>
         ))}
-        <Button
+        {/* <Button
           component={NavLink}
           activeClassName="activeNavLink"
           to={presaleLink.href} 
@@ -52,7 +52,7 @@ import Button from '@mui/material/Button';
           size="large"
           sx={{fontWeight: 500, borderRadius: 5}}
         >
-          {/* <Badge
+          <Badge
             badgeContent={
               <Stack direction="row" spacing={1} alignItems="center">
                 <span className="pulse"></span>
@@ -61,9 +61,9 @@ import Button from '@mui/material/Button';
             } 
             color="warning"
           >
-          </Badge> */}
+          </Badge>
           {presaleLink.label}
-        </Button>
+        </Button> */}
 
         {comingSoonLink.map(link => (
           <Button
@@ -73,7 +73,7 @@ import Button from '@mui/material/Button';
             size="large"
             sx={{fontWeight: 500, borderRadius: 5}}
           >
-            <Badge
+            {/* <Badge
               key={link} 
               badgeContent={
                 <span style={{color: 'rgba(255, 255, 255, .8)', fontWeight: 500, letterSpacing: 1}}>
@@ -82,8 +82,8 @@ import Button from '@mui/material/Button';
               } 
               color="primary"
             >
-              {link}
-            </Badge>
+            </Badge> */}
+            {link}
           </Button>
         ))}
         <Fragment>
