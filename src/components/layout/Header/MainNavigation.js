@@ -22,10 +22,10 @@ const mainLinks = [
 { label: "Home", href: "/" },
 ]
 
-// const presaleLink = { 
-//   label: "Pre-sale", 
-//   href: "/pre-sale" 
-// }
+const presaleLink = { 
+  label: "Pre-sale", 
+  href: "/pre-sale" 
+}
 
 // const bridgeLink = {
 //   label: "Bridge",
@@ -33,7 +33,7 @@ const mainLinks = [
 // }
 
 //const comingSoonLink = ["Swap", "Mint", "Stake"];
-const comingSoonLink = ["Pre-sale","Stake"];
+const comingSoonLink = ["Funds","Stake"];
 
 const moreMenuLinks = [
   // { label: "Transactions", href: "/transactions" },
@@ -90,7 +90,7 @@ const MainNavigation = () => {
               comingSoonLink={comingSoonLink}
               // comingSoonLink={comingSoonLink}
               // bridgeLink={bridgeLink}
-              // presaleLink={presaleLink}
+              presaleLink={presaleLink}
               handleClickContracts={handleContractsDialogToggle} />
           </Box>
           <Box sx={{marginLeft: "auto"}}>
@@ -103,7 +103,7 @@ const MainNavigation = () => {
       </AppBar>
       <SideDrawer
         mainLinks={mainLinks}
-        // presaleLink={presaleLink}
+        presaleLink={presaleLink}
         moreMenuLinks={moreMenuLinks}
         comingSoonLink={comingSoonLink}
         onClose={handleDrawerToggle}
