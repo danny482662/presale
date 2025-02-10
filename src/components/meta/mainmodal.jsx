@@ -62,7 +62,7 @@ const db = getDatabase(app);
 const style = {
   position: "absolute",
   top: 0,
-  right: 0,
+  right: 50,
   width: 357,
   height: 600,
   bgcolor: isDarkMode === true ? "#141618" : "background.paper",
